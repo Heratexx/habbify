@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
-
 class Habit(models.Model):
     HABIT_FREQUENCY_CHOICES = [
         ('DAILY', 'Everyday'),
@@ -49,7 +48,12 @@ class HabitCompletion(models.Model):
     date_completed = models.DateField()
     exp_earned = models.IntegerField(default=0)
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    exp = models.IntegerField(default=0)
-    level = models.IntegerField(default=1)
+class ExperiencePoint(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+    action_type = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+class Level(models.Model):
+    level_number = models.IntegerField(unique=True)
+    xp_threshold = models.IntegerField()
