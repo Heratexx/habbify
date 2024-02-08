@@ -3,76 +3,7 @@
 {% extends 'base.html' %}  <!-- Extend your base template if you have one -->
 
 {% block style %}
-.habits-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* Align items to the start of the container */
-}
-.habit-item {
-    width: calc(20% - 10px); /* For 5 items per row, adjust margin as needed */
-    margin: 5px; /* Adjust based on preference */
-    align-items: center;
-    flex-direction: column;
-    display: flex;
-    text-align: center;
-}
-.progress-circle {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: conic-gradient(
-        #4caf50 0%,
-        #4caf50 var(--progress),
-        #ddd var(--progress),
-        #ddd 100%
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
 
-.circle-overlay, .habit-name, .plus-icon {
-    position: absolute;
-    top: 5px; /* Adjust these values to change the thickness */
-    left: 5px; /* Adjust these values to change the thickness */
-    right: 5px; /* Adjust these values to change the thickness */
-    bottom: 5px; /* Adjust these values to change the thickness */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.3s ease; /* Smooth transition for opacity */
-}
-
-.circle-overlay {
-    z-index: 1;
-    background: #fff;
-    border-radius: 50%;
-}
-
-.habit-name, .plus-icon {
-    z-index: 2;
-    opacity: 1; /* Make habit name visible by default */
-    text-align: center;
-}
-
-.plus-icon {
-    font-size: 2.25em;
-    opacity: 0; /* Hide plus icon by default */
-    visibility: hidden; /* Use visibility to ensure it's not clickable when hidden */
-}
-
-/* Toggle visibility on hover */
-.progress-circle:hover .habit-name {
-    opacity: 0;
-}
-
-.progress-circle:hover .plus-icon {
-    opacity: 1;
-    visibility: visible;
-}
 {% endblock %}
 
 {% block content %}

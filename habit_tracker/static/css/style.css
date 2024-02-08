@@ -1,0 +1,83 @@
+:root {
+    --pastel-pink: #FFD1DC;
+    --pastel-lavender: #E6E6FA;
+    --soft-blue: #ADD8E6;
+    --pastel-green: #98FB98;
+    --peach: #FFDAB9;
+    --light-yellow: #FFFFE0;
+    --muted-purple: #C9A0DC;
+    --baby-blue: #B0E0E6;
+    --pale-orange: #FFE4B5;
+    --mint-green: #98FF98;
+}
+
+.habits-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the start of the container */
+}
+.habit-item {
+    width: calc(20% - 10px); /* For 5 items per row, adjust margin as needed */
+    margin: 5px; /* Adjust based on preference */
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+}
+.progress-circle {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--pastel-green) 0%,
+        var(--pastel-green) var(--progress),
+        #ddd var(--progress),
+        #ddd 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.circle-overlay, .habit-name, .plus-icon {
+    position: absolute;
+    top: 5px; /* Adjust these values to change the thickness */
+    left: 5px; /* Adjust these values to change the thickness */
+    right: 5px; /* Adjust these values to change the thickness */
+    bottom: 5px; /* Adjust these values to change the thickness */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+.circle-overlay {
+    z-index: 1;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.habit-name, .plus-icon {
+    z-index: 2;
+    opacity: 1; /* Make habit name visible by default */
+    text-align: center;
+}
+
+.plus-icon {
+    font-size: 2.25em;
+    opacity: 0; /* Hide plus icon by default */
+    visibility: hidden; /* Use visibility to ensure it's not clickable when hidden */
+}
+
+/* Toggle visibility on hover */
+.progress-circle:hover .habit-name {
+    opacity: 0;
+}
+
+.progress-circle:hover .plus-icon {
+    opacity: 1;
+    visibility: visible;
+}
