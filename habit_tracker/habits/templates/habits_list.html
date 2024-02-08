@@ -1,0 +1,21 @@
+<!-- habits/templates/habits/habits_list.html -->
+
+{% extends 'base.html' %}  <!-- Extend your base template if you have one -->
+
+{% block content %}
+<h2>My Habits</h2>
+<ul>
+    {% for habit in habits %}
+    <div class="habit-item mb-3">
+        <h5>{{ habit.name }}</h5>
+        <p>Progress: {{ habit.current_progress }} / {{ habit.target }}</p>
+        {% if not habit.is_complete %}
+        <form action="{% url 'track_habit' habit.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-info btn-sm">Add Progress</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+</ul>
+{% endblock %}

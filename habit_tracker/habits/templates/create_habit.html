@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Habit{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center mt-5">Create New Habit</h2>
+                <div class="card my-5">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'create_habit' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="{{ form.name.id_for_label }}">Name</label>
+                                <input type="text" class="form-control" id="{{ form.name.id_for_label }}" name="{{ form.name.name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.frequency.id_for_label }}">Period</label>
+                                <select type="text" class="form-control" id="{{ form.frequency.id_for_label }}" name="{{ form.frequency.name }}" required>
+                                    {% for value, label in form.frequency.field.choices %}
+                                        <option value="{{ value }}"{% if form.frequency.value == value %} selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.target.id_for_label }}">Target</label>
+                                <input type="number" class="form-control" id="{{ form.target.id_for_label }}" name="{{ form.target.name }}" required>
+                                <small class="form-text text-muted">{{ form.target.help_text }}</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Create Habit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
