@@ -7,12 +7,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">My Habits</h2>
-    <div class="habits-list d-flex flex-wrap justify-content-start">
-        <div class="container mt-5">
-    <h2 class="mb-4">My Habits</h2>
-    
+<div class="container mt-5"> 
+    <div id="notification" class="notification hidden">
+        <p id="notification-message"></p>
+    </div> 
     <!-- Daily Habits -->
     <h3>Daily Habits</h3>
     <div class="habit-list daily-habits d-flex flex-wrap justify-content-start">
@@ -96,7 +94,7 @@
                     // This assumes the response contains the new progress percentage and completion status
                     var progressPercentage = response.progress_percentage;
                     var isCompleted = response.is_completed;
-                    
+                    handleXpGained(response.xp_gain);
                     var habitItem = $('[data-habit-id=' + habitId + ']');
                     habitItem.find('.progress-circle').css('--progress', progressPercentage + '%'); // Update the progress circle
                     
@@ -112,5 +110,34 @@
             });
         });
     });
+    function handleXpGained(xpGained) {
+        // Update UI to show XP gained
+        showNotification(`You gained ${xpGained} experience points!`);
+    }
+
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+    
+        // Set notification message
+        notificationMessage.innerText = message;
+    
+        // Show notification
+        notification.classList.remove('hidden');
+        notification.classList.add('show');
+    
+        // Hide notification after 5 seconds
+        setTimeout(function() {
+            hideNotification();
+        }, 1500);
+    }
+    
+    function hideNotification() {
+        const notification = document.getElementById('notification');
+        
+        // Hide notification
+        notification.classList.remove('show');
+        notification.classList.add('hidden');
+    }
 </script>
 {% endblock %}

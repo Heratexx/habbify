@@ -81,3 +81,26 @@
     opacity: 1;
     visibility: visible;
 }
+
+.notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--pale-orange);
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid var(--peach)cc;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.show {
+    opacity: 0.7;
+    visibility: visible;
+}

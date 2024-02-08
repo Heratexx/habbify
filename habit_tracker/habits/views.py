@@ -27,23 +27,24 @@ def track_habit(request, habit_id):
     """View to track progress of a habit and handle completion, updated for AJAX."""
     if request.method == 'POST':
         habit = get_object_or_404(Habit, id=habit_id, user=request.user)
-        print(habit)
+        xp = 0
         # Increase progress and potentially mark as complete
         Progression.objects.create(habit=habit, amount=1)
-        award_xp(request.user, "progress habit")
+        xp += award_xp(request.user, "progress habit")
         
         # Calculate the new total progress for the habit
         total_progress = Progression.objects.filter(habit=habit).aggregate(Sum('amount'))['amount__sum'] or 0
         progress_percentage = (total_progress / habit.target) * 100
         is_completed = habit.is_completed
         if(habit.is_completed):
-            award_xp(request.user, "complete habit")
+            xp += award_xp(request.user, "complete habit")
 
         
         # Instead of redirecting, return a JSON response with the updated progress info
         return JsonResponse({
             'progress_percentage': progress_percentage,
             'is_completed': is_completed,
+            'xp_gain': xp,
         })
 
     # If the request method isn't POST, you can decide how to handle it. 
@@ -122,3 +123,5 @@ def award_xp(user, action_type):
     if amount > 0:
         ExperiencePoint.objects.create(user=user, amount=amount, action_type=action_type)
         print(f"{user} gained {amount} for {action_type}.")
+    
+    return amount
