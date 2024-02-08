@@ -1,25 +1,22 @@
 # Habbify
-/
-
 ## The Idea
-a small gimified habbit tracking prototype
+A small gamified habit tracking prototype.
 
 ### Functions
-- create new habbits
-  - everday habbits
-  - x times a week habbits
-  - (x times a month habbits)
-  - (x times a year habbits)
-- track habbit
-- earn EXP
+- Create new habits
+  - Everyday habits
+  - X times a week habits
+  - (X times a month habits)
+  - (X times a year habits)
+- Track habit
+- Earn EXP
 - Level Up
-- (Compete against other in seson leaderboards)
-  
-### Current ToDos
-- Creating Habbit System
-  - Creating an Habbit
-  - Track the Habbit progression
+- (Compete against others in season leaderboards)
 
+### Current To-Dos
+- Creating Habit System
+  - Creating a Habit
+  - Track the Habit progression
 
 ## Adam's Code Jam
 This code was created in early 2024 for [Adam's Code Jam](https://jam.adamlearns.com/).
