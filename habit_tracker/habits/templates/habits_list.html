@@ -2,38 +2,184 @@
 
 {% extends 'base.html' %}  <!-- Extend your base template if you have one -->
 
+{% block style %}
+.habits-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the start of the container */
+}
+.habit-item {
+    width: calc(20% - 10px); /* For 5 items per row, adjust margin as needed */
+    margin: 5px; /* Adjust based on preference */
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+}
+.progress-circle {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #4caf50 0%,
+        #4caf50 var(--progress),
+        #ddd var(--progress),
+        #ddd 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.circle-overlay, .habit-name, .plus-icon {
+    position: absolute;
+    top: 5px; /* Adjust these values to change the thickness */
+    left: 5px; /* Adjust these values to change the thickness */
+    right: 5px; /* Adjust these values to change the thickness */
+    bottom: 5px; /* Adjust these values to change the thickness */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+.circle-overlay {
+    z-index: 1;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.habit-name, .plus-icon {
+    z-index: 2;
+    opacity: 1; /* Make habit name visible by default */
+    text-align: center;
+}
+
+.plus-icon {
+    font-size: 2.25em;
+    opacity: 0; /* Hide plus icon by default */
+    visibility: hidden; /* Use visibility to ensure it's not clickable when hidden */
+}
+
+/* Toggle visibility on hover */
+.progress-circle:hover .habit-name {
+    opacity: 0;
+}
+
+.progress-circle:hover .plus-icon {
+    opacity: 1;
+    visibility: visible;
+}
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <h2 class="mb-4">My Habits</h2>
-    <div class="list-group">
+    <div class="habits-list d-flex flex-wrap justify-content-start">
+        <div class="container mt-5">
+    <h2 class="mb-4">My Habits</h2>
+    
+    <!-- Daily Habits -->
+    <h3>Daily Habits</h3>
+    <div class="habit-list daily-habits d-flex flex-wrap justify-content-start">
         {% for entry in habits_with_progress %}
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ entry.habit.name }}</h5>
-                    <small>{{ entry.current_progress }} / {{ entry.habit.target }}</small>
-                </div>
-                <p class="mb-1">{{ entry.habit.description }}</p>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" 
-                         style="width: {{ entry.progress_percentage }}%;" 
-                         aria-valuenow="{{ entry.progress_percentage }}" 
-                         aria-valuemin="0" 
-                         aria-valuemax="100">
-                        {{ entry.progress_percentage|floatformat:0 }}%
+            {% if entry.habit.frequency == 'DAILY' %}
+                <div class="habit-item">
+                    <div class="habit-item" data-progress="{{ entry.progress_percentage }}" data-habit-id="{{ entry.habit.id }}">
+                        <div class="progress-circle clickable" onclick="submitProgressForm({{ entry.habit.id }})">
+                            <div class="circle-overlay"></div>
+                            <span class="plus-icon"><i class="fa-solid fa-plus"></i></span> <!-- Plus icon -->
+                            <span class="habit-name">{{ entry.habit.name }}</span>
+                        </div>
+                        <div class="">
+                            {% if not entry.is_completed %}
+                                <form id="progress-form-{{ entry.habit.id }}" action="{% url 'track_habit' entry.habit.id %}" method="post" class="mt-2">
+                                    {% csrf_token %}
+                                </form>
+                            {% else %}
+                                <span class="badge badge-success mt-2">Completed</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-                {% if not entry.is_completed %}
-                    <form action="{% url 'track_habit' entry.habit.id %}" method="post" class="mt-2">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-sm">Add Progress</button>
-                    </form>
-                {% else %}
-                    <span class="badge badge-success mt-2">Completed</span>
-                {% endif %}
-            </a>
-        {% empty %}
-            <p>No habits to display. Start by adding a new habit!</p>
+            {% endif %}
         {% endfor %}
     </div>
-</div>
+    
+    <!-- Weekly Habits -->
+    <h3>Weekly Habits</h3>
+    <div class="habit-list weekly-habits d-flex flex-wrap justify-content-start">
+        {% for entry in habits_with_progress %}
+            {% if entry.habit.frequency == 'WEEKLY' %}
+                <div class="habit-item" data-progress="{{ entry.progress_percentage }}" data-habit-id="{{ entry.habit.id }}">
+                    <div class="progress-circle clickable" onclick="submitProgressForm({{ entry.habit.id }})">
+                        <div class="circle-overlay"></div>
+                        <span class="plus-icon"><i class="fa-solid fa-plus"></i></span> <!-- Plus icon -->
+                        <span class="habit-name">{{ entry.habit.name }}</span>
+                    </div>
+                    <div class="">
+                        {% if not entry.is_completed %}
+                            <form id="progress-form-{{ entry.habit.id }}" action="{% url 'track_habit' entry.habit.id %}" method="post" class="mt-2">
+                                {% csrf_token %}
+                            </form>
+                        {% else %}
+                            <span class="badge badge-success mt-2">Completed</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('.habit-item').forEach(function(item) {
+        var progress = item.getAttribute('data-progress');
+        var circle = item.querySelector('.progress-circle');
+        circle.style.setProperty('--progress', progress + '%');
+    });
+
+    function submitProgressForm(habitId) {
+        // Find the form by ID and submit it
+        //let elem = document.getElementById('progress-form-' + habitId).submit();
+    }
+
+    $(document).ready(function() {
+        $('.clickable').click(function() {
+            console.log("Clicked")
+            var habitId = $(this).closest('.habit-item').data('habit-id');
+            var csrfToken = $('[name=csrfmiddlewaretoken]').val(); // Get CSRF token from any CSRF input field
+            $.ajax({
+                url: '/habit/track/' + habitId + '/', // Make sure this URL matches your Django URL configuration for updating habit progress
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': csrfToken,
+                    'habit_id': habitId, // Assuming your Django view expects habit_id as part of the POST data
+                },
+                success: function(response) {
+                    // Update the UI based on the response
+                    // This assumes the response contains the new progress percentage and completion status
+                    var progressPercentage = response.progress_percentage;
+                    var isCompleted = response.is_completed;
+                    
+                    var habitItem = $('[data-habit-id=' + habitId + ']');
+                    habitItem.find('.progress-circle').css('--progress', progressPercentage + '%'); // Update the progress circle
+                    
+                    if (isCompleted) {
+                        habitItem.find('.clickable').off('click'); // Disable further clicks if habit is completed
+                        habitItem.append('<span class="badge badge-success mt-2">Completed</span>'); // Add a "Completed" badge
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error('Error updating habit progress:', error);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

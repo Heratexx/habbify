@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from .models import Habit, HabitCompletion, UserProfile, Progression
 from .forms import HabitForm
 from django.contrib.auth.decorators import login_required
@@ -21,20 +22,28 @@ def create_habit(request):
 
 @login_required
 def track_habit(request, habit_id):
-    """View to track progress of a habit and handle completion."""
-    habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+    """View to track progress of a habit and handle completion, updated for AJAX."""
     if request.method == 'POST':
-        # Define or calculate EXP earned for this habit
-        exp_earned = 10  # Example fixed value, adjust as needed
-        
+        habit = get_object_or_404(Habit, id=habit_id, user=request.user)
+        print(habit)
         # Increase progress and potentially mark as complete
         Progression.objects.create(habit=habit, amount=1)
         
-        # Redirect to a success page or the habit list
-        return redirect('habits_list')  # Adjust redirection as needed
-    else:
-        # GET request handling or error message
-        return redirect('habit_detail', habit_id=habit.id)  # Adjust as needed
+        # Calculate the new total progress for the habit
+        total_progress = Progression.objects.filter(habit=habit).aggregate(Sum('amount'))['amount__sum'] or 0
+        progress_percentage = (total_progress / habit.target) * 100
+        is_completed = habit.is_completed
+        print("ok")
+        
+        # Instead of redirecting, return a JSON response with the updated progress info
+        return JsonResponse({
+            'progress_percentage': progress_percentage,
+            'is_completed': is_completed,
+        })
+
+    # If the request method isn't POST, you can decide how to handle it. 
+    # For simplicity, this example just returns an empty JSON response or you could return an error message.
+    return JsonResponse({})
 
 def calculate_exp(user_profile, habit):
     # Implementation to calculate EXP based on habit completion
