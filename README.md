@@ -21,7 +21,7 @@ A small gamified habit tracking prototype.
   - ~~should track the timespan according to the selected frequency~~
   - ~~so there is no need to "clear" current Habbits after a period of time to be able to track again~~
 - Showing the EXP
-  - the total number
+  - ~~the total number~~
   - the amount earned when progressing
   - the amount earned when creating a new one
 - Update Habits
