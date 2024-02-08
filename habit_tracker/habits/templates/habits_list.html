@@ -3,19 +3,37 @@
 {% extends 'base.html' %}  <!-- Extend your base template if you have one -->
 
 {% block content %}
-<h2>My Habits</h2>
-<ul>
-    {% for habit in habits %}
-    <div class="habit-item mb-3">
-        <h5>{{ habit.name }}</h5>
-        <p>Progress: {{ habit.current_progress }} / {{ habit.target }}</p>
-        {% if not habit.is_complete %}
-        <form action="{% url 'track_habit' habit.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-info btn-sm">Add Progress</button>
-        </form>
-        {% endif %}
+<div class="container mt-5">
+    <h2 class="mb-4">My Habits</h2>
+    <div class="list-group">
+        {% for entry in habits_with_progress %}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ entry.habit.name }}</h5>
+                    <small>{{ entry.current_progress }} / {{ entry.habit.target }}</small>
+                </div>
+                <p class="mb-1">{{ entry.habit.description }}</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" 
+                         style="width: {{ entry.progress_percentage }}%;" 
+                         aria-valuenow="{{ entry.progress_percentage }}" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100">
+                        {{ entry.progress_percentage|floatformat:0 }}%
+                    </div>
+                </div>
+                {% if not entry.is_completed %}
+                    <form action="{% url 'track_habit' entry.habit.id %}" method="post" class="mt-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm">Add Progress</button>
+                    </form>
+                {% else %}
+                    <span class="badge badge-success mt-2">Completed</span>
+                {% endif %}
+            </a>
+        {% empty %}
+            <p>No habits to display. Start by adding a new habit!</p>
+        {% endfor %}
     </div>
-    {% endfor %}
-</ul>
+</div>
 {% endblock %}
