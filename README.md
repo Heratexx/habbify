@@ -11,6 +11,10 @@ A small gamified habit tracking prototype.
 - Track habit
 - Earn EXP
 - Level Up
+- Grow aour own forest with different kind of birds
+  - while prgressing habits you can earn eggs
+    - eggs are progresing while progressing and completing habits
+    - you can get "better" eggs by increasing your level/gaining more EXP
 - (Compete against others in season leaderboards)
 
 ### Current To-Dos
