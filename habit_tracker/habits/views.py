@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import Habit, HabitCompletion, Progression, ExperiencePoint, Level, Egg, Bird, UserBirds, UserEggs
@@ -7,6 +8,7 @@ from django.db.models import Sum
 from django.utils import timezone
 from datetime import timedelta
 import random
+from django.core import serializers
 
 @login_required
 def create_habit(request):
@@ -57,6 +59,54 @@ def track_habit(request, habit_id):
     # If the request method isn't POST, you can decide how to handle it. 
     # For simplicity, this example just returns an empty JSON response or you could return an error message.
     return JsonResponse({})
+
+@login_required
+def feed_bird(request, user_bird_id):
+    if request.method == "POST":
+        bird = UserBirds.objects.get(pk=user_bird_id)
+        bird.feed()
+        bird.save()
+        print(bird.lives_in_forest)
+        if(bird.lives_in_forest):
+            #generate 3 random eggs to choos from
+            eggs = get_random_eggs()
+
+            serialized_eggs = serializers.serialize('json', eggs)
+            print(serialized_eggs)
+        else:
+            serialized_eggs = None
+        
+        
+        bird_json = {
+            "id": bird.id,
+            "stage": bird.stage
+        }
+
+        return JsonResponse({
+            'bird': bird_json,
+            'bird_growed_old': bird.lives_in_forest,
+            'eggs': serialized_eggs,
+        })
+    
+    return JsonResponse({})
+@login_required
+def choose_egg(request, egg_id):
+    if request.method == "POST":
+        UserEggs.objects.create(egg_id = egg_id, user=request.user)
+        return JsonResponse({"code": 200})
+    
+    return JsonResponse({})
+def get_random_eggs():
+    # Get all eggs from the database
+    all_eggs = Egg.objects.all()
+    
+    # Shuffle the queryset to randomize the order
+    random_eggs = list(all_eggs.order_by('?'))
+    
+    # Get the first three elements (random eggs)
+    random_three_eggs = random_eggs[:2]
+    
+    return random_three_eggs
 
 @login_required
 def habits_list(request):
@@ -139,7 +189,12 @@ def egg_collection(request):
 
 @login_required
 def bird_collection(request):
-    birds = UserBirds.objects.filter(user=request.user)
+    birds = UserBirds.objects.filter(user=request.user, lives_in_forest=False)
+    return render(request, 'bird_collection.html', {'birds': birds})
+
+@login_required
+def forest_collection(request):
+    birds = UserBirds.objects.filter(user=request.user, lives_in_forest=True)
     return render(request, 'bird_collection.html', {'birds': birds})
 
 def increase_players_egg_progress(user, xp):
@@ -184,3 +239,16 @@ def get_new_egg(user, exp_earned):
         return True
     else:
         return False 
+    
+@login_required
+def clear_user_collections(request):
+    # Alle Einträge in UserEggs löschen
+    UserEggs.objects.filter(user=request.user).delete()
+    
+    # Alle Einträge in UserBirds löschen
+    UserBirds.objects.filter(user=request.user).delete()
+
+    Habit.objects.filter(user=request.user).delete()
+
+    print("Alle UserEggs und UserBirds wurden erfolgreich gelöscht.")
+    return redirect('habits_list')

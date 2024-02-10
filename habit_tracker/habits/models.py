@@ -77,3 +77,12 @@ class UserEggs(models.Model):
 class UserBirds(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bird = models.ForeignKey(Bird, on_delete=models.CASCADE)
+    stage = models.IntegerField(default=1)
+    lives_in_forest = models.BooleanField(default=False)
+
+    def feed(self):
+        self.stage += 1
+        #NOTE: Currently hard codeded stage 3 as final Stage
+        if(self.stage == 3):
+            self.lives_in_forest = True
+        self.save()

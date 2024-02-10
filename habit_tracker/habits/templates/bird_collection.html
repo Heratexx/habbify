@@ -5,12 +5,98 @@
 {% block content %}
 {% load static %}
 <h1>Bird Collection</h1>
-<div style="display: flex; flex-wrap: wrap;">
+<div class="col-12" style="display: flex; flex-wrap: wrap;">
     {% for bird in birds %}
-        <div style="margin: 10px; text-align: center;">
-            <img src="{% static 'bird_images/' %}{{ bird.bird.image }}" height="100px" alt="{{ bird.bird.name }}">
-            <h2>{{ bird.bird.name }}</h2>
+        <div class="col-3" style="margin: 10px; text-align: center;">
+            <a href="#" class="feed-bird" data-bird-id="{{ bird.id }}"><img src="{% static 'bird_images/' %}{{ bird.bird.image }}" height="100px" alt="{{ bird.bird.name }}"></a>
+            <h2>{{ bird.bird.name }}</h2><span id="stage-badge-{{bird.id}}" class="badge badge-info">{{ bird.stage }} / 3</span>
         </div>
     {% endfor %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var eggModal
+    document.addEventListener("DOMContentLoaded", function() {
+        // Attach click event listener to each image
+        document.querySelectorAll('.feed-bird').forEach(item => {
+            item.addEventListener('click', event => {
+                event.preventDefault();
+                // Get the bird ID from data attribute
+                const birdId = item.dataset.birdId;
+                // Make AJAX request
+                $.ajax({
+                    url: `/habit/birds/${birdId}/feed/`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        update_stage_badge(response.bird)
+                        if(response.bird_growed_old == true) {
+                            // Parse the JSON string to convert it into an array
+                            const eggs = JSON.parse(response.eggs);
+                            // Display Bootstrap modal
+                            const static_url = "{%static 'egg_images/' %}";
+                            console.log(static_url)
+                            const modalContent = `
+                                <div class="modal fade" id="eggModal" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="eggModalLabel">Choose an Egg</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Your bird has grown old! Choose one out of three eggs:</p>
+                                                    ${eggs.map(egg => `<button type="button" data-egg-id="${egg.pk}" data-bs-dismiss="modal" onclick="chooseEgg(${egg.pk})"><img src="${static_url}${egg.fields.image}" width="25px">${egg.fields.name}</button>`).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            // Append modal content to the body
+                            document.body.insertAdjacentHTML('beforeend', modalContent);
+                            console.log("something")
+                            // Show the modal
+                            eggModal = new bootstrap.Modal(document.getElementById('eggModal'));
+                            eggModal.show();
+                        }
+                        console.log("Feeded");
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error('Error updating habit progress:', error);
+                }
+                });
+            });
+        });
+    });
+
+function update_stage_badge(bird){
+    $(`#stage-badge-${bird.id}`).html(`${bird.stage} / 3`);
+}
+
+function chooseEgg(index) {
+    const eggId = index;
+    eggModal.hide();
+    $('#eggModal').modal('hide');
+
+    $.ajax({
+        url: `/habit/eggs/${eggId}/choose/`,
+        type: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+            //NOTE: not a good solution to use ajax and then reload the site, but it solves the problem for now to remove the grown bird by hand
+            window.location.reload();
+        },
+        error: function(xhr, status, error) {
+            // Handle errors
+            console.error('Error:', error);
+        }
+    });
+}
+</script>
 {% endblock %}

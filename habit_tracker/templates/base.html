@@ -31,11 +31,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'bird_collection' %}">Birds</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'forest_collection' %}">Forest</a>
+                </li>
                 <!-- Add more navigation links here -->
             </ul>
         </div>
         {%if user_level %}
-        <div class="profile-info">
+        <div class="nav-item profile-info">
             <p>Level: {{ user_level }}</p>
             <p>Total XP: {{ total_xp }}</p>
         </div>
