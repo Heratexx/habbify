@@ -28,6 +28,10 @@ A small gamified habit tracking prototype.
   - ~~the total number~~
   - ~~the amount earned when progressing~~
   - ~~the amount earned when creating a new one~~
+- ~~Add basic functions for Birds and Egg collection~~
+  - ~~Gain Eggs when completing a habit~~
+  - ~~Level all eggs when gaining EXP~~
+  - ~~Hatch birds when a threshold is reached~~
 - Update Habits
   - classic update view
 - Detail habit View
