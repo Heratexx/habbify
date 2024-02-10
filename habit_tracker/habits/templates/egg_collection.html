@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Habit{% endblock %}
+
+{% block content %}
+{% load static %}
+<h1>Egg Collection</h1>
+<ul>
+    {% for egg in eggs %}
+        <li><img src="{% static 'egg_images/' %}{{egg.egg.image}}" width="25px"> - {{ egg.egg.name }} - progress: {{ egg.progress }} / {{egg.egg.xp_threshold}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

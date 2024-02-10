@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from .models import Habit, HabitCompletion, Progression, ExperiencePoint, Level
+from .models import Habit, HabitCompletion, Progression, ExperiencePoint, Level, Egg, Bird, UserBirds, UserEggs
 from .forms import HabitForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.utils import timezone
 from datetime import timedelta
+import random
 
 @login_required
 def create_habit(request):
@@ -28,6 +29,7 @@ def track_habit(request, habit_id):
     if request.method == 'POST':
         habit = get_object_or_404(Habit, id=habit_id, user=request.user)
         xp = 0
+        got_new_egg = False
         # Increase progress and potentially mark as complete
         Progression.objects.create(habit=habit, amount=1)
         xp += award_xp(request.user, "progress habit")
@@ -39,12 +41,17 @@ def track_habit(request, habit_id):
         if(habit.is_completed):
             xp += award_xp(request.user, "complete habit")
 
+        hatched_birds = increase_players_egg_progress(request.user, xp)
         
+        if(habit.is_completed):
+            got_new_egg = get_new_egg(request.user, xp)
         # Instead of redirecting, return a JSON response with the updated progress info
         return JsonResponse({
             'progress_percentage': progress_percentage,
             'is_completed': is_completed,
             'xp_gain': xp,
+            'got_new_egg': got_new_egg,
+            'num_hatched_birds': len(hatched_birds)
         })
 
     # If the request method isn't POST, you can decide how to handle it. 
@@ -80,7 +87,7 @@ def profile(request):
     user = request.user
 
     # Calculate user's total XP
-    total_xp = ExperiencePoint.objects.filter(user=user).aggregate(models.Sum('amount'))['amount__sum'] or 0
+    total_xp = ExperiencePoint.objects.filter(user=user).aggregate(Sum('amount'))['amount__sum'] or 0
 
     # Calculate user's level
     user_level = calculate_user_level(total_xp)
@@ -122,6 +129,59 @@ def award_xp(user, action_type):
     amount = xp_amounts.get(action_type, 0) 
     if amount > 0:
         ExperiencePoint.objects.create(user=user, amount=amount, action_type=action_type)
-        print(f"{user} gained {amount} for {action_type}.")
     
     return amount
+
+@login_required
+def egg_collection(request):
+    eggs = UserEggs.objects.filter(user=request.user)
+    return render(request, 'egg_collection.html', {'eggs': eggs})
+
+@login_required
+def bird_collection(request):
+    birds = UserBirds.objects.filter(user=request.user)
+    return render(request, 'bird_collection.html', {'birds': birds})
+
+def increase_players_egg_progress(user, xp):
+    eggs = UserEggs.objects.filter(user = user)
+    hatched_birds = set()
+    for egg in eggs:
+        egg.progress += xp
+        egg.save()
+        bird = hatch(user, egg)
+        if bird:
+            hatched_birds.add(bird)
+    
+    return hatched_birds
+
+
+
+def hatch(user, egg):
+    if egg.progress >= egg.egg.xp_threshold:
+        available_birds = Bird.objects.filter(egg=egg.egg)
+        if available_birds.exists():
+            chosen_bird = random.choice(available_birds)
+            user_bird = UserBirds.objects.create(bird=chosen_bird, user=user)
+            UserEggs.objects.get(pk=egg.id).delete()
+            return user_bird
+        else:
+            return None
+    else:
+        return None
+
+def get_new_egg(user, exp_earned):
+    base_probability = 0.2
+    
+    adjusted_probability = base_probability + (exp_earned / 10)  
+    
+    random_number = random.random()
+    
+    if random_number < adjusted_probability:
+        all_egg_ids = Egg.objects.values_list('id', flat=True)
+    
+        # Randomly choose one egg ID from the list
+        random_egg_id = random.choice(all_egg_ids)
+        UserEggs.objects.create(user=user, egg_id=random_egg_id)
+        return True
+    else:
+        return False 

@@ -94,7 +94,7 @@
                     // This assumes the response contains the new progress percentage and completion status
                     var progressPercentage = response.progress_percentage;
                     var isCompleted = response.is_completed;
-                    handleXpGained(response.xp_gain);
+                    handleNotificatioNmessage(response);
                     var habitItem = $('[data-habit-id=' + habitId + ']');
                     habitItem.find('.progress-circle').css('--progress', progressPercentage + '%'); // Update the progress circle
                     
@@ -110,9 +110,23 @@
             });
         });
     });
-    function handleXpGained(xpGained) {
+    function handleNotificatioNmessage(response) {
         // Update UI to show XP gained
-        showNotification(`You gained ${xpGained} experience points!`);
+        /*
+        'progress_percentage': progress_percentage,
+            'is_completed': is_completed,
+            'xp_gain': xp,
+            'got_new_egg': got_new_egg,
+            'num_hatched_birds': len(hatched_birds)
+        */
+        var msg = `You gained ${response.xp_gain} experience points!`
+        if(response.got_new_egg == true) {
+            msg += `\nYou also got an new Egg!`
+        }
+        if(response.num_hatched_birds > 0) {
+            msg += `\nYou hateched ${response.num_hatched_birds} bird/s!`
+        }
+        showNotification(msg);
     }
 
     function showNotification(message) {

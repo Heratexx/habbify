@@ -57,3 +57,23 @@ class ExperiencePoint(models.Model):
 class Level(models.Model):
     level_number = models.IntegerField(unique=True)
     xp_threshold = models.IntegerField()
+    
+class Egg(models.Model):
+    name = models.CharField(max_length=100)
+    xp_required = models.IntegerField(default=100)  # XP required to hatch the egg
+    xp_threshold = models.IntegerField(default=100)
+    image = models.ImageField(upload_to='egg_images/')
+class Bird(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='bird_images/')
+    egg = models.ForeignKey(Egg, on_delete=models.CASCADE)
+
+class UserEggs(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    egg = models.ForeignKey(Egg, on_delete=models.CASCADE)
+    progress = models.IntegerField(default=0)
+
+class UserBirds(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bird = models.ForeignKey(Bird, on_delete=models.CASCADE)
