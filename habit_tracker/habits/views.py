@@ -42,7 +42,7 @@ def track_habit(request, habit_id):
             xp += award_xp(request.user, "complete habit")
 
         hatched_birds = increase_players_egg_progress(request.user, xp)
-        
+
         if(habit.is_completed):
             got_new_egg = get_new_egg(request.user, xp)
         # Instead of redirecting, return a JSON response with the updated progress info
@@ -172,8 +172,7 @@ def hatch(user, egg):
 def get_new_egg(user, exp_earned):
     base_probability = 0.2
     
-    adjusted_probability = base_probability + (exp_earned / 10)  
-    
+    adjusted_probability = base_probability + (exp_earned / 250)  
     random_number = random.random()
     
     if random_number < adjusted_probability:
