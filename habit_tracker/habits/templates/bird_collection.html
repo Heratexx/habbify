@@ -5,6 +5,7 @@
 {% block content %}
 {% load static %}
 <h1>Bird Collection</h1>
+<h4>Food: <span id='food-amount'>{{ food_amount}}</span></h4>
 <div class="col-12" style="display: flex; flex-wrap: wrap;">
     {% for bird in birds %}
         <div class="col-3" style="margin: 10px; text-align: center;">
@@ -33,7 +34,8 @@
                         'X-CSRFToken': '{{ csrf_token }}'
                     },
                     success: function(response) {
-                        update_stage_badge(response.bird)
+                        update_stage_badge(response.bird);
+                        update_food_amount(response.food_amount);
                         if(response.bird_growed_old == true) {
                             // Parse the JSON string to convert it into an array
                             const eggs = JSON.parse(response.eggs);
@@ -57,7 +59,6 @@
                             `;
                             // Append modal content to the body
                             document.body.insertAdjacentHTML('beforeend', modalContent);
-                            console.log("something")
                             // Show the modal
                             eggModal = new bootstrap.Modal(document.getElementById('eggModal'));
                             eggModal.show();
@@ -65,7 +66,7 @@
                 },
                 error: function(xhr, status, error) {
                     // Handle errors
-                    console.error('Error updating habit progress:', error);
+                    alert("No Food available.")
                 }
                 });
             });
@@ -74,6 +75,12 @@
 
 function update_stage_badge(bird){
     $(`#stage-badge-${bird.id}`).html(`${bird.stage} / 3`);
+}
+function update_food_amount(amount){
+    if(amount == 0){
+        alert("No Food");
+    }
+    $(`#food-amount`).html(`${amount}`);
 }
 
 function chooseEgg(index) {

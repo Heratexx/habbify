@@ -63,6 +63,7 @@ class Egg(models.Model):
     xp_required = models.IntegerField(default=100)  # XP required to hatch the egg
     xp_threshold = models.IntegerField(default=100)
     image = models.ImageField(upload_to='egg_images/')
+
 class Bird(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -86,3 +87,7 @@ class UserBirds(models.Model):
         if(self.stage == 3):
             self.lives_in_forest = True
         self.save()
+
+class Food(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=0)

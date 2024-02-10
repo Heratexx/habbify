@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from .models import Habit, HabitCompletion, Progression, ExperiencePoint, Level, Egg, Bird, UserBirds, UserEggs
+from .models import Food, Habit, HabitCompletion, Progression, ExperiencePoint, Level, Egg, Bird, UserBirds, UserEggs
 from .forms import HabitForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
@@ -66,31 +66,40 @@ def calc_user_exp(user):
 @login_required
 def feed_bird(request, user_bird_id):
     if request.method == "POST":
-        bird = UserBirds.objects.get(pk=user_bird_id)
-        bird.feed()
-        bird.save()
-        print(bird.lives_in_forest)
-        if(bird.lives_in_forest):
-            #generate 3 random eggs to choos from
-            user_current_xp = calc_user_exp(request.user)
-            eggs = get_random_eggs(user_current_xp)
+        food_amount = Food.objects.filter(user=request.user).aggregate(Sum('amount'))['amount__sum'] or 0
+        if(food_amount > 0):
+            food = Food.objects.filter(user=request.user)[0]
+            food.amount -= 1
+            food.save()
 
-            serialized_eggs = serializers.serialize('json', eggs)
-            print(serialized_eggs)
+            bird = UserBirds.objects.get(pk=user_bird_id)
+            bird.feed()
+            bird.save()
+            print(bird.lives_in_forest)
+            if(bird.lives_in_forest):
+                #generate 3 random eggs to choos from
+                user_current_xp = calc_user_exp(request.user)
+                eggs = get_random_eggs(user_current_xp)
+
+                serialized_eggs = serializers.serialize('json', eggs)
+                print(serialized_eggs)
+            else:
+                serialized_eggs = None
+            
+            
+            bird_json = {
+                "id": bird.id,
+                "stage": bird.stage
+            }
+            food_amount = Food.objects.filter(user=request.user).aggregate(Sum('amount'))['amount__sum'] or 0
+            return JsonResponse({
+                'bird': bird_json,
+                'bird_growed_old': bird.lives_in_forest,
+                'eggs': serialized_eggs,
+                'food_amount': food_amount,
+            })
         else:
-            serialized_eggs = None
-        
-        
-        bird_json = {
-            "id": bird.id,
-            "stage": bird.stage
-        }
-
-        return JsonResponse({
-            'bird': bird_json,
-            'bird_growed_old': bird.lives_in_forest,
-            'eggs': serialized_eggs,
-        })
+            return JsonResponse({'error': 'No Food available.'}, status=500)
     
     return JsonResponse({})
 @login_required
@@ -102,9 +111,9 @@ def choose_egg(request, egg_id):
     return JsonResponse({})
 def get_random_eggs(user_xp):
     quality_xp_ranges = {
-        'common': (1, 200),
-        'uncommon': (201, 1000),
-        'rare': (1001, 2000),
+        'common': (1, 200, 5),
+        'uncommon': (201, 1000, 3),
+        'rare': (1001, 2000, 1),
     }
     # Get all eggs from the database
     suitable_eggs = Egg.objects.filter(xp_required__lte=user_xp)
@@ -117,10 +126,8 @@ def get_random_eggs(user_xp):
                 quality = q
                 break
         if quality:
-            print((egg.xp_required - xp_range[0]) / (xp_range[1] - xp_range[0]))
-            weight = 10 - int(10 * (egg.xp_required - xp_range[0]) / (xp_range[1] - xp_range[0]))
-            print(f"EGG: {egg.name} ({egg.xp_required}) - Q: {quality} - W: {weight} - RANGE: {xp_range}")
-            weighted_eggs.extend([egg] * weight)
+            print(f"EGG: {egg.name} ({egg.xp_required}) - Q: {quality} - W: {xp_range[2]} - RANGE: {xp_range}")
+            weighted_eggs.extend([egg] * xp_range[2])
     # Shuffle the queryset to randomize the order
     selected_eggs = random.choices(weighted_eggs, k=3)
     
@@ -207,8 +214,9 @@ def egg_collection(request):
 
 @login_required
 def bird_collection(request):
-    birds = UserBirds.objects.filter(user=request.user, lives_in_forest=False)
-    return render(request, 'bird_collection.html', {'birds': birds})
+    birds = UserBirds.objects.filter(user=request.user, lives_in_forest=False)    
+    food_amount = Food.objects.filter(user=request.user).aggregate(Sum('amount'))['amount__sum'] or 0
+    return render(request, 'bird_collection.html', {'birds': birds, 'food_amount': food_amount})
 
 @login_required
 def forest_collection(request):
