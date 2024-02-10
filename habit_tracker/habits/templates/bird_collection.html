@@ -66,7 +66,7 @@
                 },
                 error: function(xhr, status, error) {
                     // Handle errors
-                    alert("No Food available.")
+                    //alert("No Food available.")
                 }
                 });
             });
@@ -77,10 +77,10 @@ function update_stage_badge(bird){
     $(`#stage-badge-${bird.id}`).html(`${bird.stage} / 3`);
 }
 function update_food_amount(amount){
-    if(amount == 0){
-        alert("No Food");
-    }
     $(`#food-amount`).html(`${amount}`);
+    if(amount == 0){
+        console.log("No Food");
+    }
 }
 
 function chooseEgg(index) {

@@ -11,6 +11,13 @@
     <div id="notification" class="notification hidden">
         <p id="notification-message"></p>
     </div> 
+    <div>
+        <h3> 7 Days Habit Completions: </h3>
+        {% for date, status in seven_day_hist.items %}
+            <div class="col-2 circle{% if status %} completed{% endif %}"></div>
+        {% endfor %}
+    </div>
+    <br>
     <!-- Daily Habits -->
     <h3>Daily Habits</h3>
     <div class="habit-list daily-habits d-flex flex-wrap justify-content-start">

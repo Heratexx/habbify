@@ -4,9 +4,9 @@ from django.http import JsonResponse
 from .models import Food, Habit, HabitCompletion, Progression, ExperiencePoint, Level, Egg, Bird, UserBirds, UserEggs
 from .forms import HabitForm
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.utils import timezone
-from datetime import timedelta
+from datetime import timedelta, datetime
 import random
 from django.core import serializers
 
@@ -41,12 +41,15 @@ def track_habit(request, habit_id):
         progress_percentage = (total_progress / habit.target) * 100
         is_completed = habit.is_completed
         if(habit.is_completed):
+            HabitCompletion.objects.create(
+                habit = habit
+            )
             xp += award_xp(request.user, "complete habit")
+            food = Food.objects.filter(user=request.user)[0]
+            food.amount += 1
+            food.save()
 
         hatched_birds = increase_players_egg_progress(request.user, xp)
-
-        # if(habit.is_completed):
-        #     got_new_egg = get_new_egg(request.user, xp)
 
         # Instead of redirecting, return a JSON response with the updated progress info
         return JsonResponse({
@@ -152,10 +155,12 @@ def habits_list(request):
             'habit': habit,
             'current_progress': total_progress,
             'progress_percentage': min(progress_percentage, 100),  # Ensure it does not exceed 100%
-            'is_completed': habit.is_completed  # Assuming is_completed is a property/method that evaluates completion
+            'is_completed': habit.is_completed,  # Assuming is_completed is a property/method that evaluates completion
         })
 
-    return render(request, 'habits_list.html', {'habits_with_progress': habits_with_progress})
+    seven_day_hist = get_seven_day_completion_history(request.user)
+    print(seven_day_hist)
+    return render(request, 'habits_list.html', {'habits_with_progress': habits_with_progress, 'seven_day_hist': seven_day_hist})
 
 @login_required
 def profile(request):
@@ -235,8 +240,6 @@ def increase_players_egg_progress(user, xp):
     
     return hatched_birds
 
-
-
 def hatch(user, egg):
     if egg.progress >= egg.egg.xp_threshold:
         available_birds = Bird.objects.filter(egg=egg.egg)
@@ -278,3 +281,21 @@ def clear_user_collections(request):
 
     print("Alle UserEggs und UserBirds wurden erfolgreich gelöscht.")
     return redirect('habits_list')
+
+def get_seven_day_completion_history(user):
+    today = datetime.now().date()
+    seven_days_ago = today - timedelta(days=7)
+    habit_completions = HabitCompletion.objects.filter(
+        habit__user=user,
+        date_completed__gte=seven_days_ago,
+        date_completed__lte=today
+    ).values('date_completed').annotate(count=Count('id'))
+    print(habit_completions)
+    habit_completion_status = {}
+
+    current_date = seven_days_ago
+    while current_date <= today:
+        habit_completion_status[current_date] = habit_completions.filter(date_completed=current_date).exists()
+        current_date += timedelta(days=1)
+
+    return habit_completion_status

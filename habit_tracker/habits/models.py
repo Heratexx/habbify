@@ -45,7 +45,7 @@ class Progression(models.Model):
 
 class HabitCompletion(models.Model):
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE)
-    date_completed = models.DateField()
+    date_completed = models.DateField(auto_now_add=True)
     exp_earned = models.IntegerField(default=0)
 
 class ExperiencePoint(models.Model):
