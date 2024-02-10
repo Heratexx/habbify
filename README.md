@@ -1,51 +1,46 @@
-# Habbify
-## The Idea
-A small gamified habit tracking prototype.
 
-### Functions
-- Create new habits
-  - Everyday habits
-  - X times a week habits
-  - (X times a month habits)
-  - (X times a year habits)
-- Track habit
-- Earn EXP
-- Level Up
-- Grow your own forest with different kind of birds
-  - while progressing habits you can earn eggs
-    - eggs are progressing while progressing and completing habits
-    - you can get "better" eggs by increasing your level/gaining more EXP
-- (Compete against others in season leaderboards)
+# Habbify
+
+## The Idea
+Habbify is a small gamified habit tracking prototype designed to help users build positive habits. It incorporates elements of gamification, such as earning experience points (EXP) and collecting eggs to hatch birds, to motivate users to track and progress their habits consistently.
+
+### Features
+- **Create New Habits:** Users can create various types of habits, including everyday habits, habits to be completed a certain number of times per week, per month, or per year.
+- **Track Habit Progress:** Users can track the progress of their habits, allowing them to monitor their consistency and improvement over time.
+- **Earn EXP:** Users earn experience points (EXP) for progressing and completing their habits. EXP serves as a measure of their overall progress and commitment.
+- **Level Up:** As users accumulate EXP, they level up, unlocking new features and rewards.
+- **Grow Your Own Forest:** Users can grow their own virtual forest by hatching birds from collected eggs. Each bird represents a milestone in the user's habit journey.
 
 ### Current To-Dos
 - ~~Creating Habit System~~
   - ~~Creating a Habit~~
   - ~~Track the Habit progression~~
 - ~~Change is_complete~~
-  - ~~should track the timespan according to the selected frequency~~
-  - ~~so there is no need to "clear" current Habbits after a period of time to be able to track again~~
+  - ~~Should track the timespan according to the selected frequency~~
+  - ~~No need to "clear" current habits after a period of time to be able to track again~~
 - ~~Showing the EXP~~
-  - ~~the total number~~
-  - ~~the amount earned when progressing~~
-  - ~~the amount earned when creating a new one~~
-- ~~Add basic functions for Birds and Egg collection~~
+  - ~~The total number~~
+  - ~~The amount earned when progressing~~
+  - ~~The amount earned when creating a new one~~
+- ~~Add Basic Functions for Birds and Egg Collection~~
   - ~~Gain Eggs when completing a habit~~
   - ~~Level all eggs when gaining EXP~~
   - ~~Hatch birds when a threshold is reached~~
-- Getting "better" eggs with higher user Level
-  - i want at least 2 more eggs to hold different birds to collect
-    - therefore i need 2 more egg icons
-    - and 3-4 more bird images
-  - a function that can pick an egg (better eggs probalbillity should scale with user level)
-    - to keep it simple new eggs always start at a 10% chance and inceasing by 10% per level
-  - the egg model needs an level threshold to track unlocking
+- Getting "Better" Eggs with Higher User Level
+  - Need at least 2 more eggs to hold different birds to collect
+    - Therefore, 2 more egg icons needed
+    - And 3-4 more bird images
+  - Implement a function that can pick an egg (better egg probability scales with user level)
+    - New eggs always start at a 10% chance and increase by 10% per level
+  - The egg model needs a level threshold to track unlocking
 - Update Habits
-  - classic update view
-- Detail habit View
-  - basic informations (name, freq, target, progression, is_complete)
-  - Histroy of completion and earnd EXP
+  - Classic update view
+- Detail Habit View
+  - Basic information (name, frequency, target, progression, is_complete)
+  - History of completion and earned EXP
 
-NOTE: for this prototype i want to focus on the EXP as main motivator
+**Note:** For this prototype, the main focus is on the EXP as the primary motivator for habit tracking. Other features are designed to complement and enhance the user experience.
+
 
 
 ## Adam's Code Jam
