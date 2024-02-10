@@ -25,13 +25,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create_habit' %}">Create Habit</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'egg_collection' %}">Eggs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bird_collection' %}">Birds</a>
+                </li>
                 <!-- Add more navigation links here -->
             </ul>
         </div>
+        {%if user_level %}
         <div class="profile-info">
             <p>Level: {{ user_level }}</p>
             <p>Total XP: {{ total_xp }}</p>
         </div>
+        {% endif %}
     </nav>
 
     <div class="container mt-4">
