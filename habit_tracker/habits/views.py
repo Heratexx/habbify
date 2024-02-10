@@ -45,8 +45,9 @@ def track_habit(request, habit_id):
 
         hatched_birds = increase_players_egg_progress(request.user, xp)
 
-        if(habit.is_completed):
-            got_new_egg = get_new_egg(request.user, xp)
+        # if(habit.is_completed):
+        #     got_new_egg = get_new_egg(request.user, xp)
+
         # Instead of redirecting, return a JSON response with the updated progress info
         return JsonResponse({
             'progress_percentage': progress_percentage,
@@ -59,6 +60,8 @@ def track_habit(request, habit_id):
     # If the request method isn't POST, you can decide how to handle it. 
     # For simplicity, this example just returns an empty JSON response or you could return an error message.
     return JsonResponse({})
+def calc_user_exp(user):
+    return ExperiencePoint.objects.filter(user=user).aggregate(Sum('amount'))['amount__sum'] or 0
 
 @login_required
 def feed_bird(request, user_bird_id):
@@ -69,7 +72,8 @@ def feed_bird(request, user_bird_id):
         print(bird.lives_in_forest)
         if(bird.lives_in_forest):
             #generate 3 random eggs to choos from
-            eggs = get_random_eggs()
+            user_current_xp = calc_user_exp(request.user)
+            eggs = get_random_eggs(user_current_xp)
 
             serialized_eggs = serializers.serialize('json', eggs)
             print(serialized_eggs)
@@ -96,17 +100,31 @@ def choose_egg(request, egg_id):
         return JsonResponse({"code": 200})
     
     return JsonResponse({})
-def get_random_eggs():
+def get_random_eggs(user_xp):
+    quality_xp_ranges = {
+        'common': (1, 200),
+        'uncommon': (201, 1000),
+        'rare': (1001, 2000),
+    }
     # Get all eggs from the database
-    all_eggs = Egg.objects.all()
+    suitable_eggs = Egg.objects.filter(xp_required__lte=user_xp)
     
+    weighted_eggs = []
+    for egg in suitable_eggs:
+        quality = None
+        for q, xp_range in quality_xp_ranges.items():
+            if xp_range[0] <= egg.xp_required <= xp_range[1]:
+                quality = q
+                break
+        if quality:
+            print((egg.xp_required - xp_range[0]) / (xp_range[1] - xp_range[0]))
+            weight = 10 - int(10 * (egg.xp_required - xp_range[0]) / (xp_range[1] - xp_range[0]))
+            print(f"EGG: {egg.name} ({egg.xp_required}) - Q: {quality} - W: {weight} - RANGE: {xp_range}")
+            weighted_eggs.extend([egg] * weight)
     # Shuffle the queryset to randomize the order
-    random_eggs = list(all_eggs.order_by('?'))
+    selected_eggs = random.choices(weighted_eggs, k=3)
     
-    # Get the first three elements (random eggs)
-    random_three_eggs = random_eggs[:2]
-    
-    return random_three_eggs
+    return selected_eggs
 
 @login_required
 def habits_list(request):
