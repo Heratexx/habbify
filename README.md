@@ -26,22 +26,22 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
   - ~~Gain Eggs when completing a habit~~
   - ~~Level all eggs when gaining EXP~~
   - ~~Hatch birds when a threshold is reached~~
-- Change the way Eggs and Birds Work
-  - You start with a one random Stage one Bird
+- ~~Change the way Eggs and Birds Work~~
+  - ~~You start with a one random Stage one Bird~~
     - ~~Birds can be feeded to gain a stage~~
     - ~~if a birds reaches stage 3 its "fully grown" and therefore letf in your Forest~~
-      - ~~this bird will give 3 options of eggs you can choose from~~ (crrently 2)
+      - ~~this bird will give 3 options of eggs you can choose from~~
       - ~~an Egg still progresses as you gain exp~~
     - There are other ways to gain new Eggs
       - Creating Daily Streaks
       - complete X Habits in one day etc...
-- Getting "Better" Eggs with Higher User Level
-  - Need at least 2 more eggs to hold different birds to collect
-    - Therefore, 2 more egg icons needed
-    - And 3-4 more bird images
-  - Implement a function that can pick an egg (better egg probability scales with user level)
-    - New eggs always start at a 10% chance and increase by 10% per level
-  - The egg model needs a level threshold to track unlocking
+- ~~Getting "Better" Eggs with Higher User Level~~
+  - ~~Need at least 2 more eggs to hold different birds to collect~~
+    - ~~Therefore, 2 more egg icons needed~~
+    - ~~And 3-4 more bird images~~
+  - ~~Implement a function that can pick an egg (better egg probability scales with user level)~~
+    - ~~New eggs always start at a 10% chance and increase by 10% per level~~
+  - ~~The egg model needs a level threshold to track unlocking~~
 - Update Habits
   - Classic update view
 - Detail Habit View
