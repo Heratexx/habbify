@@ -139,3 +139,8 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+habit_tracker/static/bird_images/Eagle.png
+habit_tracker/static/bird_images/Hummingbird.png
+habit_tracker/static/bird_images/Owl.png
+habit_tracker/static/bird_images/Sparrow.png
+habit_tracker/static/egg_images/egg1.png
