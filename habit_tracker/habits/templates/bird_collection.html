@@ -41,15 +41,15 @@
                             const static_url = "{%static 'egg_images/' %}";
                             console.log(static_url)
                             const modalContent = `
-                                <div class="modal fade" id="eggModal" tabindex="-1" role="dialog">
+                                <div class="modal fade" id="eggModal" tabindex="-1">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="eggModalLabel">Choose an Egg</h5>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Your bird has grown old! Choose one out of three eggs:</p>
-                                                    ${eggs.map(egg => `<button type="button" data-egg-id="${egg.pk}" data-bs-dismiss="modal" onclick="chooseEgg(${egg.pk})"><img src="${static_url}${egg.fields.image}" width="25px">${egg.fields.name}</button>`).join('')}
+                                                <p>Your bird has grown and is now ready for your Forest! Before you release him into the Forest choose one of the following Eggs:</p>
+                                                    ${eggs.map(egg => `<button class="col-4 btn btn-outline-default" type="button" data-egg-id="${egg.pk}" onclick="chooseEgg(${egg.pk})"><img src="${static_url}${egg.fields.image}" width="25px"> ${egg.fields.name}</button>`).join('')}
                                             </div>
                                         </div>
                                     </div>
@@ -62,7 +62,6 @@
                             eggModal = new bootstrap.Modal(document.getElementById('eggModal'));
                             eggModal.show();
                         }
-                        console.log("Feeded");
                 },
                 error: function(xhr, status, error) {
                     // Handle errors
