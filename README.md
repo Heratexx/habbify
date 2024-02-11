@@ -1,14 +1,14 @@
 
 # Habbify
-<img src="/habit_tracker/static/egg_images/egg_images/egg1.png" alt="drawing" height="35"/>
+<img src="/habit_tracker/static/egg_images/egg1.png" alt="drawing" height="35"/>
 <img src="/habit_tracker/static/bird_images/bee-eater.png" alt="drawing" height="40"/>
-<img src="/habit_tracker/static/egg_images/egg_images/egg1.png" alt="drawing" height="35"/>
+<img src="/habit_tracker/static/egg_images/egg1.png" alt="drawing" height="35"/>
 <img src="/habit_tracker/static/bird_images/eagle.png" alt="drawing" height="40"/>
-<img src="/habit_tracker/static/egg_images/egg_images/egg1.png" alt="drawing" height="35"/>
+<img src="/habit_tracker/static/egg_images/egg1.png" alt="drawing" height="35"/>
 <img src="/habit_tracker/static/bird_images/eur-roller.png" alt="drawing" height="40"/>
-<img src="/habit_tracker/static/egg_images/egg_images/egg1.png" alt="drawing" height="35"/>
+<img src="/habit_tracker/static/egg_images/egg1.png" alt="drawing" height="35"/>
 <img src="/habit_tracker/static/bird_images/Hummingbird.png" alt="drawing" height="40"/>
-<img src="/habit_tracker/static/egg_images/egg_images/egg1.png" alt="drawing" height="35"/>
+<img src="/habit_tracker/static/egg_images/egg1.png" alt="drawing" height="35"/>
 <br>
 
 ## The Idea
