@@ -1,5 +1,5 @@
 
-# <img src="/habit_tracker/static/egg_images/egg1.png" alt="drawing" height="35"/> Habbify
+# <img src="/egg1.png" alt="[egg_icon]" height="35"/> Habbify
 
 ## The Idea
 Habbify is a small gamified habit tracking prototype designed to help users build positive habits. It incorporates elements of gamification, such as earning experience points (EXP) and collecting eggs to hatch birds, to motivate users to track and progress their habits consistently.
