@@ -57,7 +57,9 @@ def track_habit(request, habit_id):
             'is_completed': is_completed,
             'xp_gain': xp,
             'got_new_egg': got_new_egg,
-            'num_hatched_birds': len(hatched_birds)
+            'num_hatched_birds': len(hatched_birds),
+            'current_progress': total_progress,
+            'target': habit.target
         })
 
     # If the request method isn't POST, you can decide how to handle it. 
@@ -155,7 +157,7 @@ def habits_list(request):
         # Append the habit and its calculated current progress to the list
         habits_with_progress.append({
             'habit': habit,
-            'current_progress': total_progress,
+            'current_progress': int(total_progress),
             'progress_percentage': min(progress_percentage, 100),  # Ensure it does not exceed 100%
             'is_completed': habit.is_completed,  # Assuming is_completed is a property/method that evaluates completion
         })

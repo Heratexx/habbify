@@ -11,13 +11,13 @@
     <div id="notification" class="notification hidden">
         <p id="notification-message"></p>
     </div> 
-    <div>
+    {% comment %} <div>
         <h3> 7 Days Habit Completions: </h3>
         {% for date, status in seven_day_hist.items %}
             <div class="col-2 circle{% if status %} completed{% endif %}"></div>
         {% endfor %}
     </div>
-    <br>
+    <br> {% endcomment %}
     <!-- Daily Habits -->
     <h3>Daily Habits</h3>
     <div class="habit-list daily-habits d-flex flex-wrap justify-content-start">
@@ -32,6 +32,7 @@
                         </div>
                         <div class="">
                             {% if not entry.is_completed %}
+                                <span id="progress-badge-{{entry.habit.id}}" class="badge badge-info mt-2">{{entry.current_progress}} / {{entry.habit.target}}</span>
                                 <form id="progress-form-{{ entry.habit.id }}" action="{% url 'track_habit' entry.habit.id %}" method="post" class="mt-2">
                                     {% csrf_token %}
                                 </form>
@@ -58,6 +59,7 @@
                     </div>
                     <div class="">
                         {% if not entry.is_completed %}
+                            <span id="progress-badge-{{entry.habit.id}}" class="badge badge-info mt-2">{{entry.current_progress}} / {{entry.habit.target}}</span>
                             <form id="progress-form-{{ entry.habit.id }}" action="{% url 'track_habit' entry.habit.id %}" method="post" class="mt-2">
                                 {% csrf_token %}
                             </form>
@@ -104,8 +106,9 @@
                     handleNotificatioNmessage(response);
                     var habitItem = $('[data-habit-id=' + habitId + ']');
                     habitItem.find('.progress-circle').css('--progress', progressPercentage + '%'); // Update the progress circle
-                    
+                    $('#progress-badge-'+habitId).html(response.current_progress+ ' / '+response.target)
                     if (isCompleted) {
+                        $('#progress-badge-'+habitId).hide()
                         habitItem.find('.clickable').off('click'); // Disable further clicks if habit is completed
                         habitItem.append('<span class="badge badge-success mt-2">Completed</span>'); // Add a "Completed" badge
                     }
