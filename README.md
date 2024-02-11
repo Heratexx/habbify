@@ -11,71 +11,51 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
 - **Level Up:** As users accumulate EXP, they level up, unlocking new features and rewards.
 - **Grow Your Own Forest:** Users can grow their own virtual forest by hatching birds from collected eggs. Each bird represents a milestone in the user's habit journey.
 
-### Current To-Dos
-- ~~Creating Habit System~~
-  - ~~Creating a Habit~~
-  - ~~Track the Habit progression~~
-- ~~Change is_complete~~
-  - ~~Should track the timespan according to the selected frequency~~
-  - ~~No need to "clear" current habits after a period of time to be able to track again~~
-- ~~Showing the EXP~~
-  - ~~The total number~~
-  - ~~The amount earned when progressing~~
-  - ~~The amount earned when creating a new one~~
-- ~~Add Basic Functions for Birds and Egg Collection~~
-  - ~~Gain Eggs when completing a habit~~
-  - ~~Level all eggs when gaining EXP~~
-  - ~~Hatch birds when a threshold is reached~~
-- ~~Change the way Eggs and Birds Work~~
-  - ~~You start with a one random Stage one Bird~~
-    - ~~Birds can be feeded to gain a stage~~
-    - ~~if a birds reaches stage 3 its "fully grown" and therefore letf in your Forest~~
-      - ~~this bird will give 3 options of eggs you can choose from~~
-      - ~~an Egg still progresses as you gain exp~~
-    - !! There are other ways to gain new Eggs
-      - Creating Daily Streaks
-      - complete X Habits in one day etc...
-- ~~Getting "Better" Eggs with Higher User Level~~
-  - ~~Need at least 2 more eggs to hold different birds to collect~~
-    - ~~Therefore, 2 more egg icons needed~~
-    - ~~And 3-4 more bird images~~
-  - ~~Implement a function that can pick an egg (better egg probability scales with user level)~~
-    - ~~New eggs always start at a 10% chance and increase by 10% per level~~
-  - ~~The egg model needs a level threshold to track unlocking~~
-- Cleanup ToDos:
-  - create an own forest templte
-    - birds shall not be clickable
-    - stage dose not matter here
-    - maybe popup with description?
-  - small Egg template upgrade
-    - no list elements
-    - place egges side by side
-    - progressbar with % instead of actual numbers
-  - small create new habits template upgrade
-    - use pastel colors to fit the overall theme
-  - Maybe some more Modals for informations abour getting stuff including EXP
-  - Make a Video for the Features:
-    - Showing the after registration state
-      - Only got 1 Bird with 1 Food
-    - Creating Habits
-    - Progresing Habits 
-    - Earning EXP 
-    - Earning Food
-    - Staging Birds
-    - Selecting new Eggs
-    - Progressing Eggs
-    - Showing of the Forest
+### Completed To-Dos
+- **Habit System Implementation**
+  - Created a habit tracking system
+  - Implemented habit progression tracking
+- **Enhancements in Completion Tracking**
+  - Adjusted to track the timespan according to the selected frequency
+  - Eliminated the need to clear current habits for re-tracking
+- **Experience Points (EXP) Display**
+  - Displayed the total EXP number
+  - Showed EXP earned from habit progression
+  - Showed EXP earned from creating new habits
+- **Basic Features for Birds and Egg Collection**
+  - Enabled egg collection upon completing a habit
+  - Linked egg leveling to EXP gains
+  - Implemented bird hatching upon reaching EXP thresholds
+- **Modifications to Eggs and Birds Mechanics**
+  - Initialized users with a random Stage one Bird
+  - Allowed feeding birds to gain stages until fully grown at Stage 3, then left in the user's Forest
+    - Provided 3 egg options from fully grown birds
+    - Continued egg progression with EXP gains
+    - Introduced alternative methods to gain new Eggs (e.g., Daily Streaks, completing multiple habits in one day)
+- **Improved Egg Acquisition with User Level**
+  - Required additional eggs for diverse bird collection
+  - Added more egg and bird icons and images
+  - Developed a function for selecting eggs with probabilities scaling with user level
+  - Adjusted egg model for level-based unlocking
 
-
-- Update Habits
-  - Classic update view
-- Detail Habit View
-  - Basic information (name, frequency, target, progression, is_complete)
-  - History of completion and earned EXP
-
-**Note:** For this prototype, the main focus is on the EXP as the primary motivator for habit tracking. Other features are designed to complement and enhance the user experience.
-
-
+### To-Do Cleanup
+- **Forest and Egg Template Enhancements**
+  - Design a dedicated forest template
+    - Make birds non-clickable
+    - Ignore stage in the forest view
+    - Consider adding popup descriptions
+  - Upgrade egg template for better presentation
+    - Avoid list elements; display eggs side-by-side
+    - Use a progress bar showing percentage rather than numbers
+- **New Habits Creation Template Improvement**
+  - Apply pastel colors to match the overall theme
+- **Additional User Guidance**
+  - Potentially add more informational modals about EXP and rewards
+- **Deployment and Final Setup**
+  - Successfully deployed to a test environment
+  - Prepare for final launch
+    - Create 3 demo users with initial resources (a start bird and 1 food)
+    - Include some historical data to enhance completion stats visualization
 
 ## Adam's Code Jam
 This code was created in early 2024 for [Adam's Code Jam](https://jam.adamlearns.com/).
