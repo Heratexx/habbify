@@ -44,9 +44,9 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
     - [x] Make birds non-clickable
     - [x] Ignore stage in the forest view
     - [x] Consider adding popup descriptions
-  - [ ] Upgrade egg template for better presentation
-    - [ ] Avoid list elements; display eggs side-by-side
-    - [ ] Use a progress bar showing percentage rather than numbers
+  - [x] Upgrade egg template for better presentation
+    - [x] Avoid list elements; display eggs side-by-side
+    - [x] Use a progress bar showing percentage rather than numbers
 - **New Habits Creation Template Improvement**
   - [ ] Apply pastel colors to match the overall theme
 - **Additional User Guidance**
