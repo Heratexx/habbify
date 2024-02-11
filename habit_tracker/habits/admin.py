@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HabitCompletion, Habit, Egg, Bird, UserEggs, UserBirds, Food
+from .models import HabitCompletion, Habit, Egg, Bird, UserEggs, UserBirds, Food, ExperiencePoint
 
 # Register your models here.
 admin.site.register(HabitCompletion)
@@ -9,3 +9,4 @@ admin.site.register(Bird)
 admin.site.register(UserEggs)
 admin.site.register(UserBirds)
 admin.site.register(Food)
+admin.site.register(ExperiencePoint)
