@@ -20,6 +20,14 @@ This **prototype** represents the core functionality of the envisioned "Gamified
 - Login: 
   - Username: DemoUser
   - Password: demopassword
+#### Demo ToDos:
+- [ ] Create a new Habit
+  - dont select month or year for the period
+- [ ] Complete your first Habit
+- [ ] Feed a Bird to stage 3
+  - It will now be available in your forest with additional information when hovered over.
+- [ ] Gain EXP by progressing Habits
+- [ ] Feed more Birds to stage 3
 
 ## Why I Chose this Project
 I was drawn to a project that could evolve over time, something I could continuously improve upon. The concept of a gamified habit-tracking application had been on my mind for several month. My friend and I had already brainstormed some rough initial ideas, but life intervened, causing the project to be put on hold for months.
