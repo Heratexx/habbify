@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Forest{% endblock %}
+
+{% block content %}
+{% load static %}
+<h1>Your Forest</h1>
+<div class="col-12 bird-container" style="display: flex; flex-wrap: wrap;">
+    {% for bird in birds %}
+        <div class="bird-item col-3" style="margin: 10px; text-align: center;">
+            <img class="bird-image" src="{% static 'bird_images/' %}{{ bird.bird.image }}" height="100px" alt="{{ bird.bird.name }}">
+            <h2 class="bird-name">{{ bird.bird.name }}</h2>
+            <div class="bird-description">
+                <p>{{ bird.bird.description }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

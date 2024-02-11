@@ -126,3 +126,46 @@ filter: alpha(opacity=100) !important;
     background-color: var(--pale-orange); /* Color for true status */
     border-color: var(--pastel-pink); /* Border color for true status */
 }
+
+bird-container {
+    display: block;
+    margin-top: 20px;
+}
+
+.bird-item {
+    position: relative;
+    margin: 10px;
+    text-align: center;
+    display: inline-block;
+    width: 200px; /* Adjust the width as needed */
+    height: auto; /* Adjust the height as needed */
+    position: relative;
+}
+
+.bird-image {
+    height: 100px;
+    width: auto;
+}
+
+.bird-name {
+    margin-top: 5px;
+}
+
+.bird-description {
+    z-index: 99;
+    display: none;
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 1);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    width: 100%; /* Adjust the width as needed */
+    max-width: 3000px; /* Adjust the max-width as needed */
+}
+
+.bird-item:hover .bird-description {
+    display: block;
+}

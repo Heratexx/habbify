@@ -226,7 +226,7 @@ def bird_collection(request):
 @login_required
 def forest_collection(request):
     birds = UserBirds.objects.filter(user=request.user, lives_in_forest=True)
-    return render(request, 'bird_collection.html', {'birds': birds})
+    return render(request, 'forest.html', {'birds': birds})
 
 def increase_players_egg_progress(user, xp):
     eggs = UserEggs.objects.filter(user = user)

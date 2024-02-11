@@ -10,7 +10,7 @@
     {% for bird in birds %}
         <div class="col-3" style="margin: 10px; text-align: center;">
             <a href="#" class="feed-bird" data-bird-id="{{ bird.id }}"><img src="{% static 'bird_images/' %}{{ bird.bird.image }}" height="100px" alt="{{ bird.bird.name }}"></a>
-            <h2>{{ bird.bird.name }}</h2><span id="stage-badge-{{bird.id}}" class="badge badge-info">{{ bird.stage }} / 3</span>
+            <h2>{{ bird.bird.name }} </h2><span id="stage-badge-{{bird.id}}" class="badge badge-info">Stage: {{ bird.stage }} / 3</span>
         </div>
     {% endfor %}
 </div>
@@ -74,7 +74,7 @@
     });
 
 function update_stage_badge(bird){
-    $(`#stage-badge-${bird.id}`).html(`${bird.stage} / 3`);
+    $(`#stage-badge-${bird.id}`).html(`Stage: ${bird.stage} / 3`);
 }
 function update_food_amount(amount){
     $(`#food-amount`).html(`${amount}`);
