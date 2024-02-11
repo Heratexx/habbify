@@ -37,8 +37,6 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
   - Added more egg and bird icons and images
   - Developed a function for selecting eggs with probabilities scaling with user level
   - Adjusted egg model for level-based unlocking
-
-### To-Do Cleanup
 - **Forest and Egg Template Enhancements**
   - [x] Design a dedicated forest template
     - [x] Make birds non-clickable
@@ -49,13 +47,14 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
     - [x] Use a progress bar showing percentage rather than numbers
 - **New Habits Creation Template Improvement**
   - [x] Apply pastel colors to match the overall theme
+
+### To-Do Cleanup
 - **Additional User Guidance**
   - [ ] Potentially add more informational modals about EXP and rewards
 - **Deployment and Final Setup**
-  - [ ] Successfully deployed to a test environment
+  - [x] Successfully deployed to a test environment
   - [ ] Prepare for final launch
-    - [ ] Create 3 demo users with initial resources (a start bird and 1 food)
-    - [ ] Include some historical data to enhance completion stats visualization
+    - [ ] Create a demo users with initial resources (a start bird and some food)
 
 ## Adam's Code Jam
 This code was created in early 2024 for [Adam's Code Jam](https://jam.adamlearns.com/).
