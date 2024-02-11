@@ -114,12 +114,13 @@ def choose_egg(request, egg_id):
     return JsonResponse({})
 def get_random_eggs(user_xp):
     quality_xp_ranges = {
-        'common': (1, 200, 5),
+        'common': (0, 200, 5),
         'uncommon': (201, 1000, 3),
         'rare': (1001, 2000, 1),
     }
     # Get all eggs from the database
     suitable_eggs = Egg.objects.filter(xp_required__lte=user_xp)
+
     
     weighted_eggs = []
     for egg in suitable_eggs:
@@ -132,6 +133,7 @@ def get_random_eggs(user_xp):
             print(f"EGG: {egg.name} ({egg.xp_required}) - Q: {quality} - W: {xp_range[2]} - RANGE: {xp_range}")
             weighted_eggs.extend([egg] * xp_range[2])
     # Shuffle the queryset to randomize the order
+
     selected_eggs = random.choices(weighted_eggs, k=3)
     
     return selected_eggs
