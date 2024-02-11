@@ -75,6 +75,11 @@ class UserEggs(models.Model):
     egg = models.ForeignKey(Egg, on_delete=models.CASCADE)
     progress = models.IntegerField(default=0)
 
+    def progress_percentage(self):
+        print(self.progress)
+        print(100 * (self.progress / self.egg.xp_threshold))
+        return 100 * (self.progress /self.egg.xp_threshold)
+
 class UserBirds(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bird = models.ForeignKey(Bird, on_delete=models.CASCADE)

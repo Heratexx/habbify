@@ -5,9 +5,22 @@
 {% block content %}
 {% load static %}
 <h1>Egg Collection</h1>
-<ul>
+<p class="lead"> Hatch your eggs by earning EXP. </p>
+<div>
     {% for egg in eggs %}
-        <li><img src="{% static 'egg_images/' %}{{egg.egg.image}}" width="25px"> - {{ egg.egg.name }} - progress: {{ egg.progress }} / {{egg.egg.xp_threshold}}</li>
+    <div class="col-2 card border-light pt-2" style="width: 18rem;">
+        <img src="{% static 'egg_images/' %}{{egg.egg.image}}" class="card-img-top"alt="egg">
+        <div class="card-body">
+          <h5 class="card-title text-center text-center">{{ egg.egg.name }}</h5>
+          <div class="progress" style="height: 5px;">
+            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{ egg.progress_percentage }}%;" aria-valuenow="{{ egg.progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="text-center">
+            <p>{{ egg.progress }} / {{ egg.egg.xp_threshold }}</p>
+          </div>
+
+        </div>
+      </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}
