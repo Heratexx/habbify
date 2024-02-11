@@ -48,7 +48,7 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
     - [x] Avoid list elements; display eggs side-by-side
     - [x] Use a progress bar showing percentage rather than numbers
 - **New Habits Creation Template Improvement**
-  - [ ] Apply pastel colors to match the overall theme
+  - [x] Apply pastel colors to match the overall theme
 - **Additional User Guidance**
   - [ ] Potentially add more informational modals about EXP and rewards
 - **Deployment and Final Setup**
