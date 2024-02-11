@@ -40,22 +40,22 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
 
 ### To-Do Cleanup
 - **Forest and Egg Template Enhancements**
-  - Design a dedicated forest template
-    - Make birds non-clickable
-    - Ignore stage in the forest view
-    - Consider adding popup descriptions
-  - Upgrade egg template for better presentation
-    - Avoid list elements; display eggs side-by-side
-    - Use a progress bar showing percentage rather than numbers
+  - [ ] Design a dedicated forest template
+    - [ ] Make birds non-clickable
+    - [ ] Ignore stage in the forest view
+    - [ ] Consider adding popup descriptions
+  - [ ] Upgrade egg template for better presentation
+    - [ ] Avoid list elements; display eggs side-by-side
+    - [ ] Use a progress bar showing percentage rather than numbers
 - **New Habits Creation Template Improvement**
-  - Apply pastel colors to match the overall theme
+  - [ ] Apply pastel colors to match the overall theme
 - **Additional User Guidance**
-  - Potentially add more informational modals about EXP and rewards
+  - [ ] Potentially add more informational modals about EXP and rewards
 - **Deployment and Final Setup**
-  - Successfully deployed to a test environment
-  - Prepare for final launch
-    - Create 3 demo users with initial resources (a start bird and 1 food)
-    - Include some historical data to enhance completion stats visualization
+  - [ ] Successfully deployed to a test environment
+  - [ ] Prepare for final launch
+    - [ ] Create 3 demo users with initial resources (a start bird and 1 food)
+    - [ ] Include some historical data to enhance completion stats visualization
 
 ## Adam's Code Jam
 This code was created in early 2024 for [Adam's Code Jam](https://jam.adamlearns.com/).
