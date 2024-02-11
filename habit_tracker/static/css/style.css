@@ -9,6 +9,7 @@
     --baby-blue: #B0E0E6;
     --pale-orange: #FFE4B5;
     --mint-green: #98FF98;
+    --mint-green-hover: #78e08f;
 }
 
 .habits-list {
@@ -168,4 +169,16 @@ bird-container {
 
 .bird-item:hover .bird-description {
     display: block;
+}
+
+.btn-mint {
+    color: black;
+    background-color: var(--mint-green);
+    border-color: var(--mint-green);
+}
+
+.btn-mint:hover {
+    color: white;
+    background-color: var(--mint-green-hover);
+    border-color: var(--mint-green-hover);
 }
