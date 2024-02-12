@@ -1,6 +1,4 @@
-<!-- habits/templates/habits/habits_list.html -->
-
-{% extends 'base.html' %}  <!-- Extend your base template if you have one -->
+{% extends 'base.html' %}
 
 {% block style %}
 
@@ -54,7 +52,7 @@
                 <div class="habit-item" data-progress="{{ entry.progress_percentage }}" data-habit-id="{{ entry.habit.id }}">
                     <div class="progress-circle clickable" onclick="submitProgressForm({{ entry.habit.id }})">
                         <div class="circle-overlay"></div>
-                        <span class="plus-icon"><i class="fa-solid fa-plus"></i></span> <!-- Plus icon -->
+                        <span class="plus-icon"><i class="fa-solid fa-plus"></i></span> 
                         <span class="habit-name">{{ entry.habit.name }}</span>
                     </div>
                     <div class="">
@@ -90,45 +88,35 @@
         $('.clickable').click(function() {
             console.log("Clicked")
             var habitId = $(this).closest('.habit-item').data('habit-id');
-            var csrfToken = $('[name=csrfmiddlewaretoken]').val(); // Get CSRF token from any CSRF input field
+            var csrfToken = $('[name=csrfmiddlewaretoken]').val(); /
             $.ajax({
-                url: '/habit/track/' + habitId + '/', // Make sure this URL matches your Django URL configuration for updating habit progress
+                url: '/habit/track/' + habitId + '/', 
                 type: 'POST',
                 data: {
                     'csrfmiddlewaretoken': csrfToken,
-                    'habit_id': habitId, // Assuming your Django view expects habit_id as part of the POST data
+                    'habit_id': habitId, 
                 },
                 success: function(response) {
-                    // Update the UI based on the response
-                    // This assumes the response contains the new progress percentage and completion status
+                    
                     var progressPercentage = response.progress_percentage;
                     var isCompleted = response.is_completed;
                     handleNotificatioNmessage(response);
                     var habitItem = $('[data-habit-id=' + habitId + ']');
-                    habitItem.find('.progress-circle').css('--progress', progressPercentage + '%'); // Update the progress circle
+                    habitItem.find('.progress-circle').css('--progress', progressPercentage + '%');
                     $('#progress-badge-'+habitId).html(response.current_progress+ ' / '+response.target)
                     if (isCompleted) {
                         $('#progress-badge-'+habitId).hide()
-                        habitItem.find('.clickable').off('click'); // Disable further clicks if habit is completed
-                        habitItem.append('<span class="badge badge-success mt-2">Completed</span>'); // Add a "Completed" badge
+                        habitItem.find('.clickable').off('click');
+                        habitItem.append('<span class="badge badge-success mt-2">Completed</span>');
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Handle errors
                     console.error('Error updating habit progress:', error);
                 }
             });
         });
     });
     function handleNotificatioNmessage(response) {
-        // Update UI to show XP gained
-        /*
-        'progress_percentage': progress_percentage,
-            'is_completed': is_completed,
-            'xp_gain': xp,
-            'got_new_egg': got_new_egg,
-            'num_hatched_birds': len(hatched_birds)
-        */
         var msg = `You gained ${response.xp_gain} experience points!`
         if(response.got_new_egg == true) {
             msg += `\nYou also got an new Egg!`
@@ -143,23 +131,19 @@
         const notification = document.getElementById('notification');
         const notificationMessage = document.getElementById('notification-message');
     
-        // Set notification message
         notificationMessage.innerText = message;
     
-        // Show notification
         notification.classList.remove('hidden');
         notification.classList.add('show');
     
-        // Hide notification after 5 seconds
         setTimeout(function() {
             hideNotification();
-        }, 1500);
+        }, 2000);
     }
     
     function hideNotification() {
         const notification = document.getElementById('notification');
         
-        // Hide notification
         notification.classList.remove('show');
         notification.classList.add('hidden');
     }

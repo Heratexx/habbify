@@ -60,7 +60,7 @@ class Level(models.Model):
     
 class Egg(models.Model):
     name = models.CharField(max_length=100)
-    xp_required = models.IntegerField(default=100)  # XP required to hatch the egg
+    xp_required = models.IntegerField(default=100)
     xp_threshold = models.IntegerField(default=100)
     image = models.ImageField(upload_to='egg_images/')
 

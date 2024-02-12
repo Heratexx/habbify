@@ -20,13 +20,10 @@
 <script>
     var eggModal
     document.addEventListener("DOMContentLoaded", function() {
-        // Attach click event listener to each image
         document.querySelectorAll('.feed-bird').forEach(item => {
             item.addEventListener('click', event => {
                 event.preventDefault();
-                // Get the bird ID from data attribute
                 const birdId = item.dataset.birdId;
-                // Make AJAX request
                 $.ajax({
                     url: `/habit/birds/${birdId}/feed/`,
                     type: 'POST',
@@ -37,9 +34,7 @@
                         update_stage_badge(response.bird);
                         update_food_amount(response.food_amount);
                         if(response.bird_growed_old == true) {
-                            // Parse the JSON string to convert it into an array
                             const eggs = JSON.parse(response.eggs);
-                            // Display Bootstrap modal
                             const static_url = "{%static 'egg_images/' %}";
                             console.log(static_url)
                             const modalContent = `
@@ -57,16 +52,13 @@
                                     </div>
                                 </div>
                             `;
-                            // Append modal content to the body
+
                             document.body.insertAdjacentHTML('beforeend', modalContent);
-                            // Show the modal
                             eggModal = new bootstrap.Modal(document.getElementById('eggModal'));
                             eggModal.show();
                         }
                 },
                 error: function(xhr, status, error) {
-                    // Handle errors
-                    //alert("No Food available.")
                 }
                 });
             });
@@ -99,7 +91,6 @@ function chooseEgg(index) {
             window.location.reload();
         },
         error: function(xhr, status, error) {
-            // Handle errors
             console.error('Error:', error);
         }
     });
