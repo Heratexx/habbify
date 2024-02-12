@@ -76,8 +76,6 @@ class UserEggs(models.Model):
     progress = models.IntegerField(default=0)
 
     def progress_percentage(self):
-        print(self.progress)
-        print(100 * (self.progress / self.egg.xp_threshold))
         return 100 * (self.progress /self.egg.xp_threshold)
 
 class UserBirds(models.Model):
