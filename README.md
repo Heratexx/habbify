@@ -17,9 +17,6 @@ Habbify is a small gamified habit tracking prototype designed to help users buil
 This **prototype** represents the core functionality of the envisioned "Gamified Habit Tracking Application." Please note that no attention has been given to graphics, layouts, or refined text at this stage. It's a work in progress! 😄
 
 - [Demo Server](http://212.227.179.73/login)
-- Login: 
-  - Username: DemoUser
-  - Password: demopassword
 #### Demo ToDos:
 - [ ] Create a new Habit
   - dont select month or year for the period
