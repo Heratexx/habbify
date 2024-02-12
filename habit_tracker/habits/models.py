@@ -88,7 +88,7 @@ class UserBirds(models.Model):
 
     def feed(self):
         self.stage += 1
-        #NOTE: Currently hard codeded stage 3 as final Stage
+        #NOTE: currently hard coded stage 3 as final stage
         if(self.stage == 3):
             self.lives_in_forest = True
         self.save()
