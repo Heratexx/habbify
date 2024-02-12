@@ -36,7 +36,7 @@
                         if(response.bird_growed_old == true) {
                             const eggs = JSON.parse(response.eggs);
                             const static_url = "{%static 'egg_images/' %}";
-                            console.log(static_url)
+                            
                             const modalContent = `
                                 <div class="modal fade" id="eggModal" tabindex="-1">
                                     <div class="modal-dialog modal-dialog-centered">
@@ -70,9 +70,6 @@ function update_stage_badge(bird){
 }
 function update_food_amount(amount){
     $(`#food-amount`).html(`${amount}`);
-    if(amount == 0){
-        console.log("No Food");
-    }
 }
 
 function chooseEgg(index) {

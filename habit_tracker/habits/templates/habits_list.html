@@ -86,7 +86,6 @@
 
     $(document).ready(function() {
         $('.clickable').click(function() {
-            console.log("Clicked")
             var habitId = $(this).closest('.habit-item').data('habit-id');
             var csrfToken = $('[name=csrfmiddlewaretoken]').val(); /
             $.ajax({
