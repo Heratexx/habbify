@@ -34,5 +34,7 @@ I was drawn to a project that could evolve over time, something I could continuo
 
 With the theme of "Improving My Life" in mind, I decided to create a prototype of this idea. By incorporating some initial concepts, I believe I'll have a solid foundation to build upon in the future if we decide to pursue the development of the actual application. Moving forward, I plan to actively track my personal habits with habbify and continue refining this project during my weekends.
 
+Big thanks to Adam for hosting the code jam. Had a great time and actually got something done for the project.
+
 # Adam's Code Jam
 This code was created in early 2024 for [Adam's Code Jam](https://jam.adamlearns.com/).
