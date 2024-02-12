@@ -72,13 +72,12 @@ def feed_bird(request, user_bird_id):
             bird = UserBirds.objects.get(pk=user_bird_id)
             bird.feed()
             bird.save()
-            print(bird.lives_in_forest)
+            
             if(bird.lives_in_forest):
                 user_current_xp = calc_user_exp(request.user)
                 eggs = get_random_eggs(user_current_xp)
 
                 serialized_eggs = serializers.serialize('json', eggs)
-                print(serialized_eggs)
             else:
                 serialized_eggs = None
             
@@ -127,7 +126,6 @@ def habits_list(request):
         })
 
     seven_day_hist = get_seven_day_completion_history(request.user)
-    print(seven_day_hist)
     return render(request, 'habits_list.html', {'habits_with_progress': habits_with_progress, 'seven_day_hist': seven_day_hist})
 
 @login_required
@@ -164,8 +162,6 @@ def clear_user_collections(request):
     UserBirds.objects.filter(user=request.user).delete()
 
     Habit.objects.filter(user=request.user).delete()
-
-    print("Alle UserEggs und UserBirds wurden erfolgreich gelöscht.")
     return redirect('habits_list')
 
 
@@ -205,7 +201,6 @@ def get_random_eggs(user_xp):
                 quality = q
                 break
         if quality:
-            print(f"EGG: {egg.name} ({egg.xp_required}) - Q: {quality} - W: {xp_range[2]} - RANGE: {xp_range}")
             weighted_eggs.extend([egg] * xp_range[2])
 
     selected_eggs = random.choices(weighted_eggs, k=3)
@@ -220,7 +215,7 @@ def get_seven_day_completion_history(user):
         date_completed__gte=seven_days_ago,
         date_completed__lte=today
     ).values('date_completed').annotate(count=Count('id'))
-    print(habit_completions)
+    
     habit_completion_status = {}
 
     current_date = seven_days_ago
