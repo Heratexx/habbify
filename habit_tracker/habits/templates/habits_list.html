@@ -87,7 +87,7 @@
     $(document).ready(function() {
         $('.clickable').click(function() {
             var habitId = $(this).closest('.habit-item').data('habit-id');
-            var csrfToken = $('[name=csrfmiddlewaretoken]').val(); /
+            var csrfToken = $('[name=csrfmiddlewaretoken]').val();
             $.ajax({
                 url: '/habit/track/' + habitId + '/', 
                 type: 'POST',
@@ -96,7 +96,6 @@
                     'habit_id': habitId, 
                 },
                 success: function(response) {
-                    
                     var progressPercentage = response.progress_percentage;
                     var isCompleted = response.is_completed;
                     handleNotificatioNmessage(response);
